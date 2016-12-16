@@ -43,4 +43,7 @@ void draw() {
   if (ballPosy+ballDiametro/2>=height || ballPosy<=0) {
     ballVely=-ballVely;
   }
+  if (ballPosy+ballDiametro/2 >= palePosy && ballPosy <= palePosy && ballPosx>=palePosx && ballPosx<=palePosx+paleAncho) {
+    ballVely=-ballVely;
+  }
 }
