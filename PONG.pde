@@ -1,5 +1,5 @@
 # Pong
-//Establecemos todas las variables ordenadas según su uso.
+//Establecemos todas las variables organizadas según su uso.
 //Variables de la pantalla
 int pantalla=0;
 PFont font;
@@ -35,14 +35,18 @@ void draw() {  //Establecemos todo lo que queremos que se ejecute de manera infi
   case 1:
     juego();
     break;
+
+  case 2:
+    pausa();
+    break;
     
-   case 2:
-     pausa();
-     break;
+  case 3:
+    fin();
+    break;
   }
 }
 
-//Creamos nuestros propios void
+//Creamos nuestros propios voids
 
 void dibujar_bola() {
   stroke(240);
@@ -71,10 +75,10 @@ void mover_bola() {
   if (ballPosy<=0) {
     ballVely=-ballVely;
   }
-  if (ballPosy+ballDiametro/2>=height) {
-    exit();
-  }
-  if (ballPosy+ballDiametro/2 >= palePosy && ballPosy <= palePosy && ballPosx>=palePosx && ballPosx<=palePosx+paleLargo) {
+   if (ballPosy+ballDiametro/2>=height) {
+     fin ();
+   }
+  if (ballPosy+ballDiametro/2 >= palePosy && ballPosy <= palePosy && ballPosx>=palePosx && ballPosx<=palePosx+paleLargo) { //Rebote con la paleta
     ballVely=-ballVely;
   }
 }
@@ -86,7 +90,7 @@ void menu() { //Diseñamos el menú principal
   text("PONG", width/2, height/4);
   textFont(font, height/6); 
   fill(165, 247, 235);
-  text("PLAY", width/2, height/2 + height/6 - height/50);
+  text("JUGAR", width/2, height/2 + height/6 - height/50);
   textFont(font, 16); 
   fill(165, 247, 235);
   textAlign(LEFT); //Utilizamos otra alineación para otro texto diferente.
@@ -99,23 +103,38 @@ void juego () { //Establecemos la pantalla de juego llamando a los bloques (void
   mover_bola();
 }
 void pausa () { //Establecemos la pantalla de pausa.
-//Llamando a los bloques que actúan en ella.
+  //Llamando a los bloques que actúan en ella.
   dibujar_bola();
   dibujar_paleta();
-//Dibujamos las letras que aparecen en ella.
+  //Dibujamos las letras que aparecen en ella.
   textAlign(CENTER);
-  text("PAUSE", width/2, height/4);
-  textFont (font,16);
-  fill(165, 247, 235);
+  text("PAUSA", width/2, height/4);
+  textFont (font, 100);
+}
+void fin () {
+background(228, 65, 44);
+  
+  
+  //Dibujamos las letras que aparecen en ella.
+  textAlign(CENTER);
+  text("FIN", width/2, height/4);
+  textFont (font, 80);
+  text("DEL JUEGO", width/2, height/2);
+  textFont (font, 80);
+
 }
 void mousePressed() {
-  switch (pantalla){
+  switch (pantalla) {
   case 0:
-  pantalla=1;
-  break;
-  
+    pantalla=1;
+    break;
+
   case 1:
-  pantalla=2;
-  break;
-  }
+    pantalla=2;
+    break;
+
+  case 2:
+    pantalla=1;
+    break;
+}
 }
