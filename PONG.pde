@@ -59,7 +59,7 @@ void dibujar_paleta() {
   rect(palePosx, palePosy, paleLargo, paleAncho);
 }
 
-void mover_raqueta() {
+void mover_paleta() {
   palePosx=mouseX;
 }
 
@@ -87,16 +87,19 @@ void menu() { //Diseñamos el menú principal
   textAlign(CENTER); //Alineamos el texto
   //Dibujamos el texto que queramos
   text("PONG", width/2, height/4);
-  textFont(font, height/6); 
   fill(165, 247, 235);
+  textAlign (RIGHT);
+  textFont(font, height/8);
+  text("Jugar", width/3 + width/15, height/2 + height/5);
   textFont(font, 25);
   textAlign(LEFT); //Utilizamos otra alineación para otro texto diferente.
+  
   text("Angeles Fuentes", width-textWidth("Angeles Fuentes:"), height-8);
 }
 void juego () { //Establecemos la pantalla de juego llamando a los bloques (voids) que actúan en ella.
   dibujar_bola();
   dibujar_paleta();
-  mover_raqueta();
+  mover_paleta();
   mover_bola();
 }
 void pausa () { //Establecemos la pantalla de pausa.
