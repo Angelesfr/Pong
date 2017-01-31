@@ -1,9 +1,19 @@
 # Pong
+/*
+Proyecto realizado por M. Ángeles Fuentes Rodríguez
+ Curso: 2º Bachillerato B
+ Clase: Programación y Computación
+ Centro: I.E.S. Vicente Aleixandre
+ Fecha: 31/01/2017
+ Agradecimientos a Miguel Granero Ramos
+ */
+
 //Establecemos todas las variables organizadas según su uso.
 
 //Variables de la pantalla
 int pantalla=0;
 PFont font;
+int puntos=0;
 
 //Variables de la pelota
 int ballVelx=4;
@@ -19,14 +29,17 @@ int palePosx=width/2;
 int palePosy=height*4;
 
 void setup() {    //Establecemos todo lo que queremos que se ejecute una sola vez (para esto sirve el void setup).
+
   size(600, 500);  //Establecemos el tamaño de la pantalla.
   font = createFont("Balker", 16, true); //Creamos una fuente para las letras.
 }
 
 void draw() {  //Establecemos todo lo que queremos que se ejecute de manera infinita (para esto sirve el void draw).
+
   background(242, 88, 152); //Establecemos el fondo.
 
   // Establecemos el cambio de pantalla otorgándole a cada pantalla un case.
+
   switch (pantalla) {
   case 0:
     menu();
@@ -79,17 +92,27 @@ void mover_bola() { //Diseñamos el movimiento de la pelota.
   if (ballPosy<=0) { //Rebote con el techo.
     ballVely=-ballVely;
   }
-  if (ballPosy+ballDiametro/2>=height) { //Fin del juego porque la pelota ha caido.
+  if (ballPosy+ballDiametro/2>=height) { //Fin del juego porque la pelota ha caído.
     pantalla = 3;
   }
   if (ballPosy+ballDiametro/2 >= palePosy && ballPosy <= palePosy && ballPosx>=palePosx && ballPosx<=palePosx+paleLargo) { //Rebote con la paleta.
     ballVely=-ballVely;
+    puntos+=1;
   }
 }
 
-void menu() { //Diseñamos el menú principal:
+void tablaPuntos() { //Diseñamos la tabla de puntos.
 
-  //Dibujamos las elipses que serán los botones "jugar" y "salir":
+  stroke(165, 247, 235);
+  fill(237, 160, 192);
+  rect(width/26, height/26, width/4, height/9);
+  textAlign (LEFT);
+  textFont(font, height/18);
+  fill(165, 247, 235);
+  text("Puntos: " + puntos, width/15, height/9);
+}
+
+void botones() { //Diseñamos los botones "jugar" y "salir".
 
   strokeWeight(3);
   stroke(165, 247, 235);
@@ -97,19 +120,24 @@ void menu() { //Diseñamos el menú principal:
   ellipse(width/4, height/2 + height/6, width/3 + width/9, height/6 + height/20);
   ellipse(width/2 + width/4, height/2 + +height/6, width/3 + width/9, height/6 + height/20);
 
+  textAlign (RIGHT);
+  fill(165, 247, 235);  //Seleccionamos el color del texto.
+  textFont(font, height/8);
+  text("Jugar", width/3 + width/20, height/2 + height/5);
+
+  textAlign (LEFT);
+  text("Salir", width/3 +width/4 + width/20, height/2 + height/5);
+}
+
+void menu() { //Diseñamos el menú principal:
+  botones();
+
   //Dibujamos el texto que queramos y lo colocamos en la pantalla:
 
   textFont(font, height/4);  //Seleccionamos la fuente del texto.
   fill(165, 247, 235);  //Seleccionamos el color del texto.
   textAlign(CENTER); //Alineamos el texto (para cada palabra utilizamos una alineación diferente).
   text("PONG", width/2, height/4);
-
-  textAlign (RIGHT);
-  textFont(font, height/8);
-  text("Jugar", width/3 + width/20, height/2 + height/5);
-
-  textAlign (LEFT);
-  text("Salir", width/3 +width/4 + width/20, height/2 + height/5);
 
   textFont(font, 25);
   text("Angeles Fuentes", width-textWidth("Angeles Fuentes:"), height-8);
@@ -121,6 +149,10 @@ void juego () { //Establecemos la pantalla de juego llamando a los bloques (void
   dibujar_paleta();
   mover_paleta();
   mover_bola();
+  tablaPuntos ();
+
+  textFont(font, height/20);
+  text("Pulse en cualquier lugar de la pantalla para pausar", width/26, height/2 + height/3 + height/9);
 }
 
 void pausa () { //Establecemos la pantalla de pausa.
@@ -129,12 +161,13 @@ void pausa () { //Establecemos la pantalla de pausa.
 
   dibujar_bola();
   dibujar_paleta();
+  tablaPuntos();
 
   //Dibujamos las letras que aparecen en ella:
 
   textAlign(CENTER);
   textFont (font, 100);
-  text("PAUSA", width/2, height/4);
+  text("PAUSA", width/2, height/3);
 
   textAlign(CENTER);
   textFont (font, 25);
@@ -143,14 +176,7 @@ void pausa () { //Establecemos la pantalla de pausa.
 
 void fin () { //Establecemos la pantalla de fin del juego:
   background(242, 88, 152);
-
-  //Dibujamos las elipses que serán los botones "jugar" y "salir":
-
-  strokeWeight(3);
-  stroke(165, 247, 235);
-  fill(237, 160, 192);
-  ellipse(width/4, height/2 + height/6, width/3 + width/9, height/6 + height/20);
-  ellipse(width/2 + width/4, height/2 + +height/6, width/3 + width/9, height/6 + height/20);
+  botones();
 
   //Dibujamos el texto que queramos y lo colocamos en la pantalla:
 
@@ -159,18 +185,11 @@ void fin () { //Establecemos la pantalla de fin del juego:
   textFont (font, 80);
   text("FIN", width/2, height/4);
   text("DEL JUEGO", width/2, height/3 + height/7);
-
-  textAlign (RIGHT);
-  textFont(font, height/8);
-  text("Jugar", width/3 + width/20, height/2 + height/5);
-
-  textAlign (LEFT);
-  text("Salir", width/3 +width/4 + width/20, height/2 + height/5);
 }
 
-void mousePressed() { 
+void mousePressed() {  //Establecemos los cambios de pantalla que se llevan a cabo al pulsar el ratón:
   switch (pantalla) {
-  case 0:
+  case 0: //En el menú tenemos dos opciones:"salir" y "jugar".
     if (mouseX<=width/2 && mouseY>=height/2) {
       pantalla=1;
     }
@@ -178,15 +197,15 @@ void mousePressed() {
       exit();
     }   
     break;
-  case 1:
+  case 1: //Pulsando en el juego pasaremos a pausa.
     pantalla=2;
     break;
 
-  case 2:
+  case 2: //Pulsando en pausa volveremos al juego.
     pantalla=1;
     break;
 
-  case 3:
+  case 3: //En la pantalla de fin podemos elegir entre jugar otra vez o salir.
     if (mouseX<=width/2 && mouseY>=height/2) {
       ballVelx=4;
       ballPosx=width/2;
